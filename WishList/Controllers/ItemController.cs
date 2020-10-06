@@ -12,9 +12,9 @@ namespace WishList.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public ItemController(ApplicationDbContext applicationDbContext)
+        public ItemController(ApplicationDbContext context)
         {
-            _context = applicationDbContext;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -39,11 +39,10 @@ namespace WishList.Controllers
 
         public IActionResult Delete(int id)
         {
-            Item itemToBeDeleted = _context.Items.Find(id);
-            _context.Items.Remove(itemToBeDeleted);
+            var item = _context.Items.FirstOrDefault(e => e.Id == id);
+            _context.Items.Remove(item);
             _context.SaveChanges();
             return RedirectToAction("Index");
-
         }
     }
 }
